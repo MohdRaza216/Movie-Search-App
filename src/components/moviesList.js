@@ -5,10 +5,10 @@ const moviesList = (props) => {
         <div>
             {
                 props.movies.map((movie, index) => (
-                    <div key={movie.imdbID}>
-                        <h2>{movie.Title}</h2>
+                    <div key={movie.imdbID} className='movie my-4'>
+                        <h5>{movie.Title}</h5>
                         <p>{movie.Year}</p>
-                        <img src={movie.Poster} alt={movie.Title}/>
+                        <img src={movie.Poster} alt={movie.Title} />
                     </div>
                 ))
             }

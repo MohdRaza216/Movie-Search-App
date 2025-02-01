@@ -1,6 +1,9 @@
 import './App.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import MoviesList from './components/moviesList.js';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'dotenv/config';
+require('dotenv').config();
 
 const App = () => {
   const [movies, setMovies] = useState([
@@ -76,15 +79,31 @@ const App = () => {
     }
   ]);
 
+  const fetchMovies = async () => {
+    const apiKey = process.env.OMDB_API_KEY;
+    const url = `http://www.omdbapi.com/?s=star wars&apikey=${apiKey}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    if (data.Response === 'False') {
+      console.error(data.Error);
+      return;
+    }
+    console.log(data.Search);
+    setMovies(data.Search);
+  }
+  
+  useEffect(() => {
+    fetchMovies();
+  }, []);
+  
   return (
-      <div className="App">
-        <header className="App-header">
-          <h1>Movies Hub</h1>
-          <p>Find your favorite movies, series, and more.</p>
+      <div className="App container-fluid">
+        <h1 className="">Movies Hub</h1>
+        <p>Find your favorite movies, series, and more.</p>
         <input type="text" placeholder="Search for movies..." />
+        <h5 className="mt-4">Search Results:</h5>
         <MoviesList movies={movies} />
-        </header>
-      </div>
+    </div>
   );
 }
 
