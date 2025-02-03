@@ -17,3 +17,7 @@ img {
   height: 300px;
   cursor: pointer;
 }
+
+html {
+  background-color: #282c34;
+}
