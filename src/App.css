@@ -21,3 +21,11 @@ img {
 html {
   background-color: #282c34;
 }
+
+#buttonSearch {
+  background-color: hsl(0, 0%, 100%);
+}
+
+#buttonSearch:hover {
+  background-color: hsl(0, 0%, 90%);
+}

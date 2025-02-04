@@ -22,6 +22,7 @@ const MoviesList = ({ movies }) => {
         </div>
     );
 };
+
 MoviesList.propTypes = {
     movies: PropTypes.arrayOf(PropTypes.shape({
         imdbID: PropTypes.string.isRequired,
