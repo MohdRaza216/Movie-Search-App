@@ -4,6 +4,9 @@ import PropTypes from 'prop-types';
 import MoviesList from './components/moviesList.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import AddFavourite from './components/addFavourite.js';
+
+
 
 const MoviePoster = ({ posterUrl }) => {
     const [imageError, setImageError] = useState(false);
@@ -12,7 +15,7 @@ const MoviePoster = ({ posterUrl }) => {
             {posterUrl && !imageError ? (
                 <img src={posterUrl} alt="Movie Poster" onError={() => setImageError(true)} />
             ) : (
-                <img src="/images/rectangle-gold-frame-paper.jpg" alt="Placeholder" />
+                <img src="/images/rectangle-gold-frame-paper.jpg" alt="movie" />
             )}
         </div>
     );
@@ -26,6 +29,8 @@ const App = () => {
     const [movies, setMovies] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [error, setError] = useState(null);
+    const [favourites, setfavorites] = useState([]);
+
 
     const fetchMovies = async () => {
         const API_KEY = process.env.REACT_APP_OMDB_API_KEY;
@@ -70,6 +75,11 @@ const App = () => {
         fetchMovies();
     };
 
+    const favouriteMovieList = (movie) => {
+        const newFavouriteList = [...favourites, movie];
+        setfavorites(newFavouriteList);
+    }
+    
     return (
         <div className='App'>
             <div className="container-fluid">
@@ -96,7 +106,8 @@ const App = () => {
                 {error && <div className="alert alert-danger">{error}</div>}
 
                 <h5 className="mt-4">Search Results:</h5>
-                <MoviesList movies={movies} MoviePoster={MoviePoster} />
+                <MoviesList movies={movies} MoviePoster={MoviePoster} favouriteComponent={AddFavourite} 
+                handleFavouriteClick={favouriteMovieList}/>
             </div>
         </div>
     );
