@@ -8,13 +8,13 @@ const Placeholder = () => (
     </div>
 );
 
-const MoviesList = ({ movies, handleFavouriteClick }) => {
+const MoviesList = ({ movies, handleFavouritesClick }) => {
     if (!movies || movies.length === 0) {
         return <p>Type a movie name to start the search.</p>;
     }
 
     return (
-        <div className="movie-list"> 
+        <div className="movie-list">
             {movies.map((movie) => (
                 <div key={movie.imdbID} className='movie my-4'>
                     <h5>{movie.Title}</h5>
@@ -27,24 +27,24 @@ const MoviesList = ({ movies, handleFavouriteClick }) => {
                             loading="lazy"
                             onError={(e) => {
                                 e.target.onerror = null;
-                                e.target.src = "/images/rectangle-gold-frame-paper.jpg"; 
+                                e.target.src = "/images/rectangle-gold-frame-paper.jpg";
                             }}
                         />
                     ) : (
                         <Placeholder />
                     )}
 
-                    {/* Ensure FavouriteComponent is not inside a button */}
                     <button
-                        className="overlay mt-2"
-                        onClick={() => handleFavouriteClick(movie)}
-                        onKeyDown={(e) => e.key === 'Enter' && handleFavouriteClick(movie)}
+                        className="overlay mt-2 btn btn-primary"
+                        onClick={() => handleFavouritesClick(movie)} // Pass movie object
+                        onKeyDown={(e) => e.key === 'Enter' && handleFavouritesClick(movie)}
+                        tabIndex={0}
                         aria-label="Add to favorites"
+                        style={{ cursor: 'pointer' }}
                     >
-                        <span> {/* Use a span instead of placing a button inside */}
-                            <FavouriteComponent />
-                        </span>
+                        <FavouriteComponent />
                     </button>
+
                 </div>
             ))}
         </div>
@@ -58,7 +58,7 @@ MoviesList.propTypes = {
         Year: PropTypes.string.isRequired,
         Poster: PropTypes.string.isRequired
     })).isRequired,
-    handleFavouriteClick: PropTypes.func.isRequired
+    handleFavouritesClick: PropTypes.func.isRequired
 };
 
 export default MoviesList;

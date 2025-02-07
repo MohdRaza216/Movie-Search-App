@@ -8,10 +8,6 @@
   text-align: center;
 }
 
-/* .movie {
-  margin: 10px;
-} */
-
 img {
   width: 200px;
   height: 300px;
@@ -88,6 +84,20 @@ html {
   padding: 10px 20px;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.container-fluid {
+  padding: 20px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  color: #555;
+  overflow-x: auto;
+  max-width: 1200px;
+  margin: auto;
+  margin-bottom: 30px;
+  margin-top: 20px;
+  border: 1px solid #ccc;
 }
 
 /* Responsive adjustments (example) */

@@ -6,8 +6,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import AddFavourite from './components/addFavourite.js';
 
-
-
 const MoviePoster = ({ posterUrl }) => {
     const [imageError, setImageError] = useState(false);
     return (
@@ -29,8 +27,7 @@ const App = () => {
     const [movies, setMovies] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [error, setError] = useState(null);
-    const [favourites, setfavorites] = useState([]);
-
+    const [favourites, setFavourites] = useState([]);
 
     const fetchMovies = async () => {
         const API_KEY = process.env.REACT_APP_OMDB_API_KEY;
@@ -75,17 +72,22 @@ const App = () => {
         fetchMovies();
     };
 
-    const favouriteMovieList = (movie) => {
-        const newFavouriteList = [...favourites, movie];
-        setfavorites(newFavouriteList);
-    }
-    
+    const addFavouriteMovie = (movie) => {
+        setFavourites((prevFavourites) => {
+            // Check if the movie is already in the favorites list
+            if (!prevFavourites.some(fav => fav.imdbID === movie.imdbID)) {
+                return [...prevFavourites, movie];
+            }
+            return prevFavourites;
+        });
+    };
+
+
     return (
         <div className='App'>
             <div className="container-fluid">
                 <h1>Movies Hub</h1>
-                <p>Find your favorite movies, series, and more.</p>
-
+                <p>Find your favourite movies, series, and more.</p>
                 <form onSubmit={handleSearchSubmit}>
                     <div className="input-group mb-3">
                         <input
@@ -106,8 +108,12 @@ const App = () => {
                 {error && <div className="alert alert-danger">{error}</div>}
 
                 <h5 className="mt-4">Search Results:</h5>
-                <MoviesList movies={movies} MoviePoster={MoviePoster} favouriteComponent={AddFavourite} 
-                handleFavouriteClick={favouriteMovieList}/>
+                <MoviesList movies={movies} MoviePoster={MoviePoster} favouriteComponent={AddFavourite} handleFavouritesClick={addFavouriteMovie}
+                />
+                <hr />
+                <h5 className="mt-4">Favorites:</h5>
+                <MoviesList movies={favourites} handleFavouriteClick={() => { }} />
+
             </div>
         </div>
     );
