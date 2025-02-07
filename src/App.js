@@ -1,5 +1,5 @@
 import './App.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import MoviesList from './components/moviesList.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -28,7 +28,11 @@ const App = () => {
     const [movies, setMovies] = useState([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [error, setError] = useState(null);
-    const [favourites, setFavourites] = useState([]);
+    const [favourites, setFavourites] = useState(() => {
+        // Load stored favourites from localStorage on initial render
+        const savedFavourites = localStorage.getItem('favourite-movies');
+        return savedFavourites ? JSON.parse(savedFavourites) : [];
+    });
 
     const fetchMovies = async () => {
         const API_KEY = process.env.REACT_APP_OMDB_API_KEY;
@@ -75,7 +79,6 @@ const App = () => {
 
     const addFavouriteMovie = (movie) => {
         setFavourites((prevFavourites) => {
-            // Check if the movie is already in the favorites list
             if (!prevFavourites.some(fav => fav.imdbID === movie.imdbID)) {
                 return [...prevFavourites, movie];
             }
@@ -87,6 +90,11 @@ const App = () => {
         const updatedFavourites = favourites.filter((fav) => fav.imdbID !== movie.imdbID);
         setFavourites(updatedFavourites);
     };
+
+    useEffect(() => {
+        // Save favourites to localStorage whenever it changes
+        localStorage.setItem('favourite-movies', JSON.stringify(favourites));
+    }, [favourites]);
 
     return (
         <div className='App'>
