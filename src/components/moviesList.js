@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import FavouriteComponent from './addFavourite.js';
 
 const Placeholder = () => (
     <div className="placeholder-container">
@@ -8,7 +7,7 @@ const Placeholder = () => (
     </div>
 );
 
-const MoviesList = ({ movies, handleFavouritesClick }) => {
+const MoviesList = ({ movies, handleFavouritesClick, favouriteComponent }) => {
     if (!movies || movies.length === 0) {
         return <p>Type a movie name to start the search.</p>;
     }
@@ -36,13 +35,13 @@ const MoviesList = ({ movies, handleFavouritesClick }) => {
 
                     <button
                         className="overlay mt-2 btn btn-primary"
-                        onClick={() => handleFavouritesClick(movie)} // Pass movie object
+                        onClick={() => handleFavouritesClick(movie)}
                         onKeyDown={(e) => e.key === 'Enter' && handleFavouritesClick(movie)}
                         tabIndex={0}
                         aria-label="Add to favorites"
                         style={{ cursor: 'pointer' }}
                     >
-                        <FavouriteComponent />
+                        {React.createElement(favouriteComponent)}
                     </button>
 
                 </div>
@@ -58,7 +57,8 @@ MoviesList.propTypes = {
         Year: PropTypes.string.isRequired,
         Poster: PropTypes.string.isRequired
     })).isRequired,
-    handleFavouritesClick: PropTypes.func.isRequired
+    handleFavouritesClick: PropTypes.func.isRequired,
+    favouriteComponent: PropTypes.elementType.isRequired
 };
 
 export default MoviesList;

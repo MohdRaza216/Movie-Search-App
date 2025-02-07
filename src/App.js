@@ -5,6 +5,7 @@ import MoviesList from './components/moviesList.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import AddFavourite from './components/addFavourite.js';
+import RemoveFavourite from './components/RemoveFavourite.js';
 
 const MoviePoster = ({ posterUrl }) => {
     const [imageError, setImageError] = useState(false);
@@ -82,6 +83,10 @@ const App = () => {
         });
     };
 
+    const removeFavouriteMovie = (movie) => {
+        const updatedFavourites = favourites.filter((fav) => fav.imdbID !== movie.imdbID);
+        setFavourites(updatedFavourites);
+    };
 
     return (
         <div className='App'>
@@ -108,11 +113,20 @@ const App = () => {
                 {error && <div className="alert alert-danger">{error}</div>}
 
                 <h5 className="mt-4">Search Results:</h5>
-                <MoviesList movies={movies} MoviePoster={MoviePoster} favouriteComponent={AddFavourite} handleFavouritesClick={addFavouriteMovie}
+                <MoviesList
+                    movies={movies}
+                    MoviePoster={MoviePoster}
+                    favouriteComponent={AddFavourite}
+                    handleFavouritesClick={addFavouriteMovie}
                 />
-                <hr />
-                <h5 className="mt-4">Favorites:</h5>
-                <MoviesList movies={favourites} handleFavouriteClick={() => { }} />
+
+                <h5 className="mt-4">Favourites:</h5>
+                <MoviesList
+                    movies={favourites}
+                    MoviePoster={MoviePoster}
+                    favouriteComponent={RemoveFavourite}
+                    handleFavouritesClick={removeFavouriteMovie}
+                />
 
             </div>
         </div>
